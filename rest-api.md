@@ -125,5 +125,9 @@ referred: Count of users signed-up using current user referral link
 }
 ```
 <br/><br/>
+### Fetch trade info/ Order Details
+
+    GET /api/trade/order/:order_id
+<br/><br/>
 
 TODO: Order Matrix Explanation
