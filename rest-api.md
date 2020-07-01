@@ -130,4 +130,41 @@ referred: Count of users signed-up using current user referral link
     GET /api/trade/order/:order_id
 <br/><br/>
 
-TODO: Order Matrix Explanation
+# Order Matrix Explanation
+
+## Order Execution Sequence
+Lets assume a,b,c,d,e,f are different trades/orders that we wish to execute in series or parallel sequence.
+
+    [[a, b], [c, d], [e, f]]
+Above sequence means `a` & `b` on same level parallel or OCO order, similarly `c` & `d` is another OCO order and `e` & `f` another OCO order. and all of them are in series. When this order will be placed then either `a` or `b` will be executed then either c or d will be executed then either `e` or `f` will be executed. Lets clarify more with more examples.
+
+    [[a,b]]
+This is the simplest example of OCO order here `a` could be stop loss and `b` could be take profit running in parallel and when either of these two hits stop price then another one will be cancelled.
+
+    [[a], [b]]
+In above example `a` & `b` are in series (OSO order). `b` will wait for `a` to complete. if `a` is market buy and `b` is market sell then market sell will be executed once market buy finishes.
+ 
+## Order Parameters Explanation
+
+Param | Example | Details|
+---|---|---|
+order_type | STOP_BUY | Possible Values are STOP_BUY... |
+order_sub_type | TRAILING | Exit strategy for advance orders. Possible values are LIMIT, MARKET, TRAILING, INSTANT |
+exchange | BINANCE | BINANCE, BITTREX, BINANCEFUTURES, BINANCEMARGIN, BITMEX, KUCOIN, etc. |
+coin | RDN/BTC | Coin to Trade (Quote)/ Market (Base) | 
+volume | 100 | Coin volume (Quote) |
+auto_volume | true | Default is False. This is only applicable in secondary OSO order.|
+entry_price | 0.00002176 | No effect on trade. Only used for profit calculation. If omitted current price will be used.
+stop_price | 0.00002176 | Positive decimal value depicting stop price of conditional trades.
+relative_stop_price | -5 | Negative number denotes -X% example use case is `STOP_LOSS`. Positive Number denoted X% example use case is `TAKE_PROFIT`. `STOP_BUY` supports both the direction in single order so specify negative number for stop price less then current price and positive number for price greater than current price. <br>When `relative_stop_price` is defined then `stop_price` field is ignored. |
+stop_condition | lte | Only required in case of `STOP_BUY` order. Possible values `lte`, `gte`. <br>`lte` means Less than or Equal to current price and `gte` means greater than or equal to current price. |
+stop_delay | 60 | Stop Timeout (In Seconds). Number of Seconds to wait for price to stay above or below stop price to execute the trade.|
+expiry | 60 | Expiry duration (In Minutes). Once this duration is reached order will be automatically filled or cancelled as defined by user
+expiry_action | FILL | Default action is CANCEL. Possible actions are FILL, CANCEL. 
+live | true | true means live order, false means demo order.|
+break_even_stop | true | only application in case of OCO order |
+price_type | LAST | Price to follow or Trail for conditional orders. Possible values are LAST, BID, ASK |
+targets | [<br>{"stop_price":"+5",<br>"relative_stop_price":"+5",<br>"quantity":"70"},<br>{"stop_price":"+10",<br>"relative_stop_price":"+10",<br>"quantity":"30"}<br>] | Array of objects containing definition of each targets in case of multiple targets order. When target is defined stop_price field will be ignored. 
+ 
+ 
+<br><br>
