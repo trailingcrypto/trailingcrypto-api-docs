@@ -1,4 +1,4 @@
-[General API Information](##user-profile-endpoints)
+[General API Information](#user-profile-endpoints)
 
 ### Check Server Status
 
