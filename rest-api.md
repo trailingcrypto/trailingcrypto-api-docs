@@ -1,3 +1,5 @@
+[General API Information](##user-profile-endpoints)
+
 ### Check Server Status
 
 **Request:**
@@ -77,18 +79,36 @@ referred: Count of users signed-up using current user referral link
 <br/><br/>
 
 ## Trading Endpoints
+<br/>
+
+**Types of orders**
+|type | Description|
+|--|--|
+|LIMIT_BUY  | Add info here 
+|LIMIT_SELL | Add info here
+|MARKET_BUY | Add info here
+|MARKET_SELL | Add info here
+|TRAILING_STOP_BUY | Add info here
+|TRAILING_STOP_SELL | Add info here
+|STOP_BUY | Add info here
+|STOP_LOSS | Add info here
+|TAKE_PROFIT | Add info here
+|OSO - CUSTOM | Add info here
+|OCO SELL | Add info here
+TODO: Add OSO - CUSTOM and OCO - CUSTOM order type in above table
+
 
 ### Create a new trade or order
 
     POST /api/trade/order
 
  
- **Parameters:**
+ **Body Parameters:**
  
 |Key |Value  | Description|
 |--|--|--|
 |exchange  | binance |Exchange on which order needs to be placed|
-|type|MARKET_SELL|Type of Trades 
+|type|MARKET_SELL|Type of Trades specified in above
 |orders| Order Matrix in JSON String| Order matrix contains all info regarding order or a group of orders in series or parrell. *(Examples given below)*
 
 **Response:**
@@ -125,6 +145,30 @@ referred: Count of users signed-up using current user referral link
 }
 ```
 <br/><br/>
+
+### Delete an order
+
+    Delete /api/trade/order?exchange=binance&coin=ETH/BTC
+
+ 
+ **Parameters:**
+ 
+|Type|Key |Value  | Description|
+|--|--|--|--|
+|Query|exchange  | binance |Exchange on which order needs to be placed|
+|Query|coin  | ETH/BTC |Coin to Trade (Quote)/ Market (Base)|
+|Body|tye |TRAILING STOP SELL|Type of Trades 
+|Body|id | [Order ID]| Order matrix contains all info regarding order or a group of orders in series or parrell. *(Examples given below)*
+|Body|location | local \| exchange| **local** (On Trailing Crypto Server) \|  **exchange** (Remote Order on Exchange)
+
+**Response:**
+```Javascript
+{
+    "success":true,
+    "id":"5f3e97c9852ee620f8c2edfa"
+}
+```
+<br/><br/>
 ### Fetch trade info/ Order Details
 
     GET /api/trade/order/:order_id
@@ -149,7 +193,7 @@ In above example `a` & `b` are in series (OSO order). `b` will wait for `a` to c
 Param | Example | Details|
 ---|---|---|
 order_type | STOP_BUY | Possible Values are STOP_BUY... |
-order_sub_type | TRAILING | Exit strategy for advance orders. Possible values are LIMIT, MARKET, TRAILING, INSTANT |
+order_sub_type | TRAILING | Exit strategy for advance orders. Possible values are LIMIT, MARKET, TRAILING, INSTANT |---
 exchange | BINANCE | BINANCE, BITTREX, BINANCEFUTURES, BINANCEMARGIN, BITMEX, KUCOIN, etc. |
 coin | RDN/BTC | Coin to Trade (Quote)/ Market (Base) | 
 volume | 100 | Coin volume (Quote) |
@@ -168,3 +212,4 @@ targets | [<br>{"stop_price":"+5",<br>"relative_stop_price":"+5",<br>"quantity":
  
  
 <br><br>
+`
