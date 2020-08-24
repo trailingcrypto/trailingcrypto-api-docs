@@ -1,4 +1,20 @@
-[General API Information](#user-profile-endpoints)
+**Table of Contents**
+\
+- [Check Server Status](#check-server-status)
+- [Authentication](#authentication)
+- [User Endpoints](#user-profile-endpoints)
+	- [Get Profile Info](#get-profile-info-(including-added-exchange-list-and-other-info))
+	- [Configure Api Keys](#configure-exchange-api-keys)
+	- [Fetch Balance](#fetch-balance)
+- [Trading Endpoints](#trading-endpoints)
+	- [Create a new trade or order](#create-a-new-trade-or-order)
+	- [Get Trade/Order history](#get-trade/order-history)
+	- [Cancel or Delete an order](#cancel-or-delete-an-order)
+	- [Fetch trade info/ Order Details](#fetch-trade-info/order-details)
+- [Order Matrix Explanation](#order-matrix-explanation)
+	- [Order Execution Sequence](#order-execution-sequence)
+	- [Order Parameters Explanation](#order-parameters-explanation)
+<br></br>
 
 ### Check Server Status
 
@@ -33,18 +49,35 @@ Each Protected Endpoint should have these header values in API calls:
 </br></br>
 
 ## User Profile Endpoints
-### Get Profile Info
+
+### Get profile info (Including added exchange list and other info)
+
     GET /api/user/profile
+
+ 
+ **Parameters: [None]**
+ 
+
 **Response:**
 ```Javascript
 {
-    "id": "5d8f158b97f6971d342e75c3",
-    "_id": "5d8f158b97f6971d342e75c3",
-    "name": "Jennifer Lopez",
-    "email": "jenni.lopez@gmail.com",
+    "id": "5f1f1497416bd41ad45607de",
+    "_id": "5f1f1497416bd41ad45607de",
+    "name": "SALMAN KHAN L",
+    "email": "salmankhn411@gmail.com",
     "provider": "email",
     "type": 1,
-    "referred": 0
+    "referred": 0,
+    "apikey": "e2bb2b3d-08e0-4e8a-855e-028f2cc7efee",
+    "telegram": {
+        "verified": true,
+        "enabled": false,
+        "token": "b35da051-fba1-49ce-ac2e-6764bc567292",
+        "userId": "1220313908"
+    },
+    "exchange_list": [
+        "binance"
+    ]
 }
 ```
 **Possible Values:**
@@ -54,7 +87,7 @@ provider: `email`, `google`, `facebook`
 type: `TRIAL:1, FREE:2, PAID:3, TELEGRAM_ADMIN:4, BUSINESS:5`
 
 referred: Count of users signed-up using current user referral link
-
+<br/><br/>
 
 ### Configure Exchange API Keys
 
@@ -74,6 +107,28 @@ referred: Count of users signed-up using current user referral link
 ```Javascript
 {
     "status": true
+}
+```
+<br/><br/>
+
+### Fetch Balance
+
+    GET /api/trade/balances?exchange=binance
+
+ 
+ **Parameters:**
+ 
+|Type|Key |Value  | Description|
+|--|--|--|--|
+|Query|exchange  | binance |Configured exchange |
+
+\
+**Response:**
+TODO: Add success response here
+```Javascript
+{
+	"statusCode":401,
+	"msg":"API-key format invalid."
 }
 ```
 <br/><br/>
@@ -146,7 +201,74 @@ TODO: Add OSO - CUSTOM and OCO - CUSTOM order type in above table
 ```
 <br/><br/>
 
-### Delete an order
+### Get Trade/Order history
+
+**Get open orders:**
+
+    GET /api/trade/orders/open?exchange=binance&coin=ETH/BTC&filters=[]&_=1598293629659
+
+**Get order history:**
+
+	GET /api/trade/orders/history?exchange=binance&coin=ETH/BTC&filters=[DEMO]&_=1598292590875
+ 
+ **Query Parameters:**
+ 
+|Key |Value  | Description|
+|--|--|--|
+|exchange  | binance |Exchange on which order needs to be placed|
+|coin|ETH/BTC|Coin to Trade (Quote)/ Market (Base)
+|filters| ["DEMO","LIVE"]| Array of filters based on which data should be fetched, Details of Various filters are mentioned below
+|_|1598292590878| Current timestamp in milliseconds
+<br></br>
+
+**Filters:**
+|Filter Type|Description|
+|--|--|
+|DEMO|Demo orders placed|
+|LIVE|Orders which are currently live|
+|EXCHANGE|Remote orders on exchanges like Kucoin.com|
+|LOCAL|Local orders placed on Trailing Crypto Server|
+|NOT_EXPIRED|Orders which are not yet expired|
+|EXPIRED|Expired orders|
+
+<br></br>
+
+**Response:**
+```Javascript
+{
+    "err": null,
+    "data": [
+        {
+            "location": "local",
+            "id": "5f4401c1b558c15ebc3f3226",
+            "exchange": "binance",
+            "public_id": "0abd3e1f",
+            "group_id": "0abd3e1f",
+            "coin": "BTC/ETH",
+            "type": "MARKET BUY",
+            "status": "CLOSE",
+            "volume": "1 ETH",
+            "quote_volume": 1,
+            "price": "0.03436 -> 0.03436 (Last)",
+            "current_price": 0.034245,
+            "condition": "",
+            "stop_price": null,
+            "relative_stop_price": null,
+            "closedAt": "2020-08-24T18:06:57.520Z",
+            "openedAt": "2020-08-24T18:06:57.520Z",
+            "expiry": "2020-11-22T18:06:57.496Z",
+            "entry": 0.03436,
+            "price_type": "Last",
+            "action": "resume",
+            "comment": "Demo -  Order Placed",
+            "notes": ""
+        }
+    ]
+}
+```
+<br/><br/>
+
+### Cancel or Delete an order
 
     Delete /api/trade/order?exchange=binance&coin=ETH/BTC
 
@@ -157,7 +279,7 @@ TODO: Add OSO - CUSTOM and OCO - CUSTOM order type in above table
 |--|--|--|--|
 |Query|exchange  | binance |Exchange on which order needs to be placed|
 |Query|coin  | ETH/BTC |Coin to Trade (Quote)/ Market (Base)|
-|Body|tye |TRAILING STOP SELL|Type of Trades 
+|Body|type |TRAILING STOP SELL|Type of Trades 
 |Body|id | [Order ID]| Order matrix contains all info regarding order or a group of orders in series or parrell. *(Examples given below)*
 |Body|location | local \| exchange| **local** (On Trailing Crypto Server) \|  **exchange** (Remote Order on Exchange)
 
@@ -169,9 +291,52 @@ TODO: Add OSO - CUSTOM and OCO - CUSTOM order type in above table
 }
 ```
 <br/><br/>
-### Fetch trade info/ Order Details
 
-    GET /api/trade/order/:order_id
+### Fetch trade info/Order Details
+
+    GET /api/trade/updateOrder?id=[order_id]
+ **Parameters:**
+ 
+|Type|Key |Value  |Description|
+|--|--|--|--|
+|Query|id |[order_id] |order_id string value |
+\
+ **Response:**
+```Javascript
+{
+    "success": true,
+    "order": {
+        "entry_price": [
+            "Entry Price",
+            0.034217
+        ],
+        "trailing_loss": [
+            "Trailing Offset",
+            1
+        ],
+        "upper_stop": [
+            "Upper Stop",
+            null,
+            true
+        ],
+        "lower_stop": [
+            "Lower Stop",
+            null,
+            true
+        ],
+        "stop_delay": [
+            "Stop Delay",
+            0,
+            false
+        ],
+        "expiry": [
+            "Expiry (Days)",
+            89,
+            false
+        ]
+    }
+}
+```
 <br/><br/>
 
 # Order Matrix Explanation
@@ -212,4 +377,30 @@ targets | [<br>{"stop_price":"+5",<br>"relative_stop_price":"+5",<br>"quantity":
  
  
 <br><br>
-`
+
+
+---------------
+---------------
+# Trash
+
+### Configure/Save new api key
+
+    GET /api/user/saveapikey
+
+ **Body Parameters:**
+ |Key |Value  | Description|
+|--|--|--|
+|exchange  | kucoin |Name of Exchange |
+|key | someApiKey |Api Key|
+|secret|someSecret |Secret Value of corresponding api key| 
+|password | somePassword| password
+|label | someLabel| label of currently configured key
+
+\
+**Response:**
+```Javascript
+{
+	"status":true
+}
+```
+<br/><br/>
