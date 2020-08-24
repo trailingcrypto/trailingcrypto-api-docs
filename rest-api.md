@@ -10,7 +10,7 @@
 	- [Create a new trade or order](#create-a-new-trade-or-order)
 	- [Get Trade/Order history](#get-trade/order-history)
 	- [Cancel or Delete an order](#cancel-or-delete-an-order)
-	- [Fetch trade info/Order Details](#fetch-trade-info/order-details)
+	- [Fetch Trade info/Order Details](#fetch-trade-info/order-details)
 - [Order Matrix Explanation](#order-matrix-explanation)
 	- [Order Execution Sequence](#order-execution-sequence)
 	- [Order Parameters Explanation](#order-parameters-explanation)
@@ -122,7 +122,6 @@ referred: Count of users signed-up using current user referral link
 |--|--|--|--|
 |Query|exchange  | binance |Configured exchange |
 
-\
 **Response:**
 TODO: Add success response here
 ```Javascript
@@ -300,7 +299,7 @@ TODO: Add OSO - CUSTOM and OCO - CUSTOM order type in above table
 |Type|Key |Value  |Description|
 |--|--|--|--|
 |Query|id |[order_id] |order_id string value |
-\
+
  **Response:**
 ```Javascript
 {
@@ -396,7 +395,7 @@ targets | [<br>{"stop_price":"+5",<br>"relative_stop_price":"+5",<br>"quantity":
 |password | somePassword| password
 |label | someLabel| label of currently configured key
 
-\
+
 **Response:**
 ```Javascript
 {
