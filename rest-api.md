@@ -1,5 +1,5 @@
 **Table of Contents**
-\
+
 - [Check Server Status](#check-server-status)
 - [Authentication](#authentication)
 - [User Endpoints](#user-profile-endpoints)
@@ -10,7 +10,7 @@
 	- [Create a new trade or order](#create-a-new-trade-or-order)
 	- [Get Trade/Order history](#get-trade/order-history)
 	- [Cancel or Delete an order](#cancel-or-delete-an-order)
-	- [Fetch trade info/ Order Details](#fetch-trade-info/order-details)
+	- [Fetch trade info/Order Details](#fetch-trade-info/order-details)
 - [Order Matrix Explanation](#order-matrix-explanation)
 	- [Order Execution Sequence](#order-execution-sequence)
 	- [Order Parameters Explanation](#order-parameters-explanation)
