@@ -1,5 +1,4 @@
 **Table of Contents**
-
 - [Check Server Status](#check-server-status)
 - [Authentication](#authentication)
 - [User Endpoints](#user-profile-endpoints)
@@ -122,21 +121,22 @@ referred: Count of users signed-up using current user referral link
 |--|--|--|--|
 |Query|exchange  | binance |Configured exchange |
 
+<!-- TODO: Add success response here -->
 **Response:**
-TODO: Add success response here
 ```Javascript
 {
 	"statusCode":401,
 	"msg":"API-key format invalid."
 }
 ```
-<br/><br/>
+<br><br/>
+
 
 ## Trading Endpoints
 <br/>
 
 **Types of orders**
-|type | Description|
+|Type | Description|
 |--|--|
 |LIMIT_BUY  | Add info here 
 |LIMIT_SELL | Add info here
@@ -148,8 +148,9 @@ TODO: Add success response here
 |STOP_LOSS | Add info here
 |TAKE_PROFIT | Add info here
 |OSO - CUSTOM | Add info here
+|OCO BUY | Add info here
 |OCO SELL | Add info here
-TODO: Add OSO - CUSTOM and OCO - CUSTOM order type in above table
+|OCO - CUSTOM| Add info here|
 
 
 ### Create a new trade or order
@@ -229,8 +230,6 @@ TODO: Add OSO - CUSTOM and OCO - CUSTOM order type in above table
 |LOCAL|Local orders placed on Trailing Crypto Server|
 |NOT_EXPIRED|Orders which are not yet expired|
 |EXPIRED|Expired orders|
-
-<br></br>
 
 **Response:**
 ```Javascript
@@ -377,29 +376,17 @@ targets | [<br>{"stop_price":"+5",<br>"relative_stop_price":"+5",<br>"quantity":
  
 <br><br>
 
+**price_type:** </br>
 
----------------
----------------
-# Trash
+--- 
+- **ASK  :** Highest price that a trader is willing to pay to go long, There's no guarantee when a bid order is placed that the trader placing the bid will receive the number of coins that they want.
+---
+- **BID  :** The ask price is the lowest price someone is willing to sell a stock for  
+---
+- **LAST :** The ask price is the lowest price someone is willing to sell a stock for
 
-### Configure/Save new api key
+<br></br>
+ **Quantity/Volume Units:**
+ 
+ To Understand Quantity/Volume units for trading kindly check out our [Article](https://www.trailingcrypto.com/support/article/understanding-trade-volume-relative-volume-base-quote-volume)   
 
-    GET /api/user/saveapikey
-
- **Body Parameters:**
- |Key |Value  | Description|
-|--|--|--|
-|exchange  | kucoin |Name of Exchange |
-|key | someApiKey |Api Key|
-|secret|someSecret |Secret Value of corresponding api key| 
-|password | somePassword| password
-|label | someLabel| label of currently configured key
-
-
-**Response:**
-```Javascript
-{
-	"status":true
-}
-```
-<br/><br/>
