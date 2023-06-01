@@ -28,7 +28,7 @@ Ignore this section if you already have **user apikey**, Follow below steps to g
 2. Now open this link in new tab: https://www.trailingcrypto.com/api/user/profile
 3. copy **apikey** from this JSON response (attached image)
 
-![image](https://github.com/trailingcrypto/trailingcrypto-api-docs/assets/45059136/82d46fcd-de0a-4dec-a608-ee42501ad661)
+![image](https://github.com/trailingcrypto/trailingcrypto-api-docs/blob/main/images/trailingcrypto%20api%20key%20finding%20pic.png)
 
 
 
